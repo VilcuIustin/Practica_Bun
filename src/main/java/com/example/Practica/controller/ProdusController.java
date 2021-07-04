@@ -16,23 +16,24 @@ public class ProdusController {
 
     @Autowired
     ProductService productService;
-        @PreAuthorize("hasRole('ROLE_ADMIN')")
-        @PostMapping("/addAliment")
-        //trebuie adaugat si id ul producatorului
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/addAliment")
+    //trebuie adaugat si id ul producatorului
     public ResponseEntity addAliment(@RequestBody ProductDto productDto) {
-            return productService.addProduct(productDto);
+        return productService.addProduct(productDto);
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/addImageProduct")
-    public ResponseEntity addImagetoProduct( @RequestParam MultipartFile image, @RequestParam Long productId) {
-        return productService.addImageToProduct(image,productId);
+    public ResponseEntity addImagetoProduct(@RequestParam MultipartFile image, @RequestParam Long productId) {
+        return productService.addImageToProduct(image, productId);
     }
+
     @GetMapping("/getProductPaginated")
-    public ResponseEntity getProductPaginated( @RequestParam Long companyId, @RequestParam int page, @RequestParam int size) {
-        return productService.getProductPaginated(companyId,page,size);
+    public ResponseEntity getProductPaginated(@RequestParam Long companyId, @RequestParam int page, @RequestParam int size) {
+        return productService.getProductPaginated(companyId, page, size);
     }
-
-
 
 
 }

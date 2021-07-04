@@ -6,16 +6,26 @@ public class AuthPayload {
     private String email;
     private String password;
     private String role;
+    private Long id;
 
     public AuthPayload() {
     }
 
     public AuthPayload(String email,
                        String password,
-                       String role) {
-        this.email=email;
-        this.password=password;
-        this.role=role;
+                       String role, Long id) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -23,7 +33,7 @@ public class AuthPayload {
     }
 
     public void setEmail(String email) {
-        this.email=email;
+        this.email = email;
     }
 
     public String getPassword() {
@@ -31,7 +41,7 @@ public class AuthPayload {
     }
 
     public void setPassword(String password) {
-        this.password=password;
+        this.password = password;
     }
 
     public String getRole() {
@@ -39,6 +49,6 @@ public class AuthPayload {
     }
 
     public void setRole(String role) {
-        this.role=role;
+        this.role = role;
     }
 }

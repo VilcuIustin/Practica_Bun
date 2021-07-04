@@ -20,9 +20,9 @@ import java.util.Optional;
 @Service
 public class ProducatorService {
     @Autowired
-    private ProducatorRepository producatorRepository;
-    @Autowired
     MediaService mediaService;
+    @Autowired
+    private ProducatorRepository producatorRepository;
 
     public ResponseEntity getProducatorPaginated(int page, int size) {
         return new ResponseEntity(producatorRepository.getProducatoriPaginated(page, size), HttpStatus.OK);

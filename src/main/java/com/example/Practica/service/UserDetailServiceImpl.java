@@ -26,7 +26,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         if (optionalAuthDto.isPresent()) {
             return UserPrinciple.build(optionalAuthDto.get());
-        } throw new UsernameNotFoundException("No User found with email: " + email);
+        }
+        throw new UsernameNotFoundException("No User found with email: " + email);
 
     }
 }

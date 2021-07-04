@@ -16,11 +16,11 @@ public class ProducatorController {
     ProducatorService producatorService;
 
 
-
     @GetMapping("/getproducatoripaginated")
     public ResponseEntity getProducatori(@RequestParam int page, @RequestParam int size) {
-        return producatorService.getProducatorPaginated(page,size);
+        return producatorService.getProducatorPaginated(page, size);
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/uploadphoto")
     public ResponseEntity updatePhoto(@RequestParam MultipartFile image, @RequestParam Long companyId) {

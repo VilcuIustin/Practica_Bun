@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 @Entity
 public class Produs {
 
@@ -19,9 +20,10 @@ public class Produs {
     private int reducere;
     private String path;
 
-    public Produs(){}
+    public Produs() {
+    }
 
-    public Produs(ProductDto productDto){
+    public Produs(ProductDto productDto) {
         this.denumire = productDto.getDenumire();
         this.descriere = productDto.getDescriere();
         this.pret = productDto.getPret();
@@ -30,8 +32,7 @@ public class Produs {
     }
 
 
-
-    public Produs(String denumire, String  descriere, float pret, long cantitate, int reducere) {
+    public Produs(String denumire, String descriere, float pret, long cantitate, int reducere) {
         this.denumire = denumire;
         this.descriere = descriere;
         this.pret = pret;
@@ -52,10 +53,6 @@ public class Produs {
                 '}';
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getPath() {
         return path;
     }
@@ -66,6 +63,10 @@ public class Produs {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setId(long id) {

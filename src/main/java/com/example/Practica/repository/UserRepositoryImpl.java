@@ -15,16 +15,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void testQuery(String email){
-//        String query = "select new User(" +
-//                " d.email, d.password, d.role.role )" +
+    public void testQuery(String email) {
+
         String query = "select new com.example.Practica.dto.AuthPayload" +
-                " (d.email, d.password, d.role.role) " +
+                " (d.email, d.password, d.role.role, d.id) " +
                 " from User d " +
                 " where d.email = :email ";
         User authPayload =
                 entityManager.createQuery(query, User.class)
-                        .setParameter("email",email)
+                        .setParameter("email", email)
                         .getSingleResult();
 
 
@@ -32,49 +31,19 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
 
-
-
     @Override
     public Optional<AuthPayload> getByEmailWithPasswordAndRole(String email) {
         System.out.println(email);
         String query = "select " +
-                " new com.example.Practica.dto.AuthPayload (d.email, d.password , d.role.role) " +
+                " new com.example.Practica.dto.AuthPayload (d.email, d.password , d.role.role, d.id) " +
                 " from User d " +
                 " where d.email = :email";
         AuthPayload authPayload =
                 entityManager.createQuery(query, AuthPayload.class)
-                        .setParameter("email",email)
-                       .getSingleResult();
-
-
-
-
-
+                        .setParameter("email", email)
+                        .getSingleResult();
         return Optional.of(authPayload);
     }
 
 
-
-//    @Override
-//    public List<User> getPaginatedDoctors(int firstResults, int maxResults) {
-//
-//        String query = "select d from Doctor d ";
-//
-//        List<User> doctors = entityManager.createQuery(query, User.class)
-//                .setFirstResult(firstResults)
-//                .setMaxResults(maxResults)
-//                .getResultList();
-//
-//        return doctors;
-//    }
-
-//    @Override
-//    public long getTotalDoctors() {
-//
-//        String query = "select count(d) from Doctor d ";
-//
-//        long totalDoctors = entityManager.createQuery(query, Long.class)
-//                .getSingleResult();
-//        return totalDoctors;
-//    }
 }

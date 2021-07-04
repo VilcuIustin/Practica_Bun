@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Role {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String role;
@@ -17,7 +17,7 @@ public class Role {
     }
 
     public Role(String role) {
-        this.role=role;
+        this.role = role;
     }
 
     public Long getId() {
@@ -25,7 +25,7 @@ public class Role {
     }
 
     public void setId(Long id) {
-        this.id=id;
+        this.id = id;
     }
 
     public String getRole() {
@@ -33,6 +33,6 @@ public class Role {
     }
 
     public void setRole(String role) {
-        this.role=role;
+        this.role = role;
     }
 }

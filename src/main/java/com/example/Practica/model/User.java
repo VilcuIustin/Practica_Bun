@@ -1,12 +1,9 @@
 package com.example.Practica.model;
 
 
-
-
 import com.example.Practica.dto.UserPayload;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -22,7 +19,8 @@ public class User {
     private Date data_nastere;
     private char sex;
     private String password;
-    @ManyToOne(fetch=FetchType.LAZY)
+    private String path;
+    @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
     @ManyToMany
     private Collection<Produs> cos;
@@ -30,13 +28,13 @@ public class User {
     public User(String email, String password, Role role) {
         this.email = email;
         this.password = password;
-        this.role= role;
+        this.role = role;
     }
 
     public User() {
     }
 
-    public User(UserPayload userPayload){
+    public User(UserPayload userPayload) {
         this.email = userPayload.getEmail();
         this.nume = userPayload.getNume();
         this.prenume = userPayload.getPrenume();
@@ -55,6 +53,14 @@ public class User {
         this.sex = sex;
         this.password = password;
         this.role = role;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Long getId() {
@@ -117,6 +123,10 @@ public class User {
         return role;
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -126,12 +136,8 @@ public class User {
                 ", prenume='" + prenume + '\'' +
                 ", data_nastere=" + data_nastere +
                 ", sex=" + sex +
-                ", parola='" + password + '\'' +
+                ", path='" + path + '\'' +
                 ", role=" + role +
                 '}';
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }

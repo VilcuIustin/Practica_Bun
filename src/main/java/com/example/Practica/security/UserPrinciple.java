@@ -2,7 +2,6 @@ package com.example.Practica.security;
 
 
 import com.example.Practica.dto.AuthPayload;
-import com.example.Practica.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,25 +13,28 @@ import java.util.List;
 public class UserPrinciple implements UserDetails {
 
     private final String email;
+    private final Long id;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrinciple(String email, Collection<? extends GrantedAuthority> authorities) {
-        this.email=email;
-        this.authorities=authorities;
+    public UserPrinciple(String email, Long id, Collection<? extends GrantedAuthority> authorities) {
+        this.email = email;
+        this.id = id;
+        this.authorities = authorities;
     }
 
-    public static UserPrinciple build(AuthPayload doctor) {
-        System.out.println(doctor.getRole());
-        String email = doctor.getEmail();
+    public static UserPrinciple build(AuthPayload user) {
+        System.out.println(user.getRole());
+        String email = user.getEmail();
+        Long id = user.getId();
         List<GrantedAuthority> authorityList = new ArrayList<>();
 
-        String role = doctor.getRole();
+        String role = user.getRole();
 
 
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role);
         authorityList.add(simpleGrantedAuthority);
 
-        return new UserPrinciple(email, authorityList);
+        return new UserPrinciple(email, id, authorityList);
     }
 
     @Override
@@ -70,10 +72,15 @@ public class UserPrinciple implements UserDetails {
         return true;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "UserPrinciple{" +
                 "email='" + email + '\'' +
+                ", id=" + id +
                 ", authorities=" + authorities +
                 '}';
     }

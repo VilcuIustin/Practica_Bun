@@ -23,24 +23,29 @@ import java.util.Optional;
 @Service
 public class MediaService {
 
-    private static String path = "/files";
-
     @Autowired
     ProducatorRepository producatorRepository;
+    private String path = new File("").getAbsolutePath() + "\\target\\classes\\public\\images";
+    private String beforepath = new File("").getAbsolutePath() + "\\target\\classes\\public";
 
-    public String addMedia(MultipartFile mediaFile)  {
+    public String addMedia(MultipartFile mediaFile) {
         try {
-            if (!Files.exists(Paths.get(path)))
+            System.out.println(Paths.get(""));
+            if (!Files.isDirectory(Paths.get(path))) {
+                if (!Files.isDirectory(Paths.get(beforepath)))
+                    Files.createDirectory(Paths.get(beforepath));
                 Files.createDirectory(Paths.get(path));
+            }
+
             String filename;
             String extension;
-            do{
-                filename= new Date().getTime()+""+ RandomStringUtils.randomAlphanumeric(20);
-                extension= FilenameUtils.getExtension(mediaFile.getOriginalFilename());
-            }while (Files.exists(Paths.get(path).resolve(filename+"."+ extension)));
+            do {
+                filename = new Date().getTime() + "" + RandomStringUtils.randomAlphanumeric(20);
+                extension = FilenameUtils.getExtension(mediaFile.getOriginalFilename());
+            } while (Files.exists(Paths.get(path).resolve(filename + "." + extension)));
 
-            Files.copy(mediaFile.getInputStream(), Paths.get(path).resolve(filename+"."+ extension));
-            return Paths.get(path).resolve(filename+"."+ extension).toString();
+            Files.copy(mediaFile.getInputStream(), Paths.get(path).resolve(filename + "." + extension));
+            return "/images" + "/" + filename + "." + extension;
         } catch (IOException e) {
             e.printStackTrace();
             return "";

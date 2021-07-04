@@ -21,16 +21,10 @@ public class ProducatorRepositoryImpl implements ProducatorRepositoryCustom {
                 " d.denumire" +
                 " from Producator d " +
                 " where d.email = :email";
-        List rezultat=entityManager.createQuery(query, String.class)
-                .setParameter("email",email)
+        List rezultat = entityManager.createQuery(query, String.class)
+                .setParameter("email", email)
                 .getResultList();
-       rezultat.stream().forEach(new Consumer() {
-            @Override
-            public void accept(Object o) {
-                System.out.println(o);
-            }
-        });
-        return rezultat!=null;
+        return rezultat.size() == 0;
     }
 
     @Override
@@ -38,8 +32,8 @@ public class ProducatorRepositoryImpl implements ProducatorRepositoryCustom {
         String query = "select d" +
                 " from Producator d" +
                 " where d.id = :id";
-        Producator producator=entityManager.createQuery(query, Producator.class)
-                .setParameter("id",id.longValue())
+        Producator producator = entityManager.createQuery(query, Producator.class)
+                .setParameter("id", id.longValue())
                 .getSingleResult();
         System.out.println(producator);
         return Optional.of(producator);
@@ -49,13 +43,12 @@ public class ProducatorRepositoryImpl implements ProducatorRepositoryCustom {
     public Optional<List<Producator>> getProducatoriPaginated(int page, int size) {
 
         String query = "select " +
-                "new Producator(d.id, d.denumire, d.email, d.adresa)" +
-                " from Producator d";
-        List<Producator> producator=entityManager.createQuery(query, Producator.class)
+                " d from Producator d ";
+        List<Producator> producator = entityManager.createQuery(query, Producator.class)
                 .setMaxResults(size)
-                .setFirstResult((page-1)*size)
+                .setFirstResult((page - 1) * size)
                 .getResultList();
-
+        producator.stream().forEach(prod -> prod.setPassword(null));
 
         return Optional.of(producator);
     }

@@ -2,7 +2,6 @@ package com.example.Practica.security;
 
 
 import com.example.Practica.dto.AuthPayload;
-import com.example.Practica.model.User;
 import com.example.Practica.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,19 +13,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
 
 //    private static List<String> userList =Arrays.asList("gxg@cst.ro");
 
-    private UserRepository doctorRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public void setServices(UserRepository doctorRepository) {
-        this.doctorRepository = doctorRepository;
+    public void setServices(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,11 +32,11 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
         String email = authentication.getName().trim();
         String inputPassword = authentication.getCredentials().toString();
 
-        Optional<AuthPayload> optionalDoctor = doctorRepository.getByEmailWithPasswordAndRole(email);
+        Optional<AuthPayload> optionalUser = userRepository.getByEmailWithPasswordAndRole(email);
 
-        if (optionalDoctor.isPresent()) {
+        if (optionalUser.isPresent()) {
 
-            AuthPayload authPayload = optionalDoctor.get();
+            AuthPayload authPayload = optionalUser.get();
             String dbPassword = authPayload.getPassword();
 
             if (BCrypt.checkpw(inputPassword, dbPassword)) {
@@ -49,8 +46,10 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
                 SecurityContextHolder.getContext().setAuthentication(newAuth);
 
                 return newAuth;
-            } throw new BadCredentialsException("Wrong password");
+            }
+            throw new BadCredentialsException("Wrong password");
 
-        } return null;
+        }
+        return null;
     }
 }

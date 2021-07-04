@@ -28,21 +28,21 @@ public class ProductService {
     public ResponseEntity addProduct(ProductDto productDto) {
         productDto.setDenumire(productDto.getDenumire().trim());
         productDto.setDescriere(productDto.getDescriere().trim());
-        if(productDto.getDenumire().isEmpty())
+        if (productDto.getDenumire().isEmpty())
             return new ResponseEntity("Alimentul trebuie sa contina o denumire", HttpStatus.BAD_REQUEST);
-        if(productDto.getDescriere().isEmpty())
+        if (productDto.getDescriere().isEmpty())
             return new ResponseEntity("Alimentul trebuie sa contina o descriere", HttpStatus.BAD_REQUEST);
-        if(productDto.getPret()<0)
+        if (productDto.getPret() < 0)
             return new ResponseEntity("Alimentul trebuie sa contina un pret mai mare ca 0", HttpStatus.BAD_REQUEST);
 //            Inlocuim cantitatea cu bool disponibil  ?????
-        if (productDto.getReducere()<0 || productDto.getReducere()>100 )
+        if (productDto.getReducere() < 0 || productDto.getReducere() > 100)
             return new ResponseEntity("Reducerea aplicata unui aliment trebuie sa fie intre 0-100%", HttpStatus.BAD_REQUEST);
-        Produs produs= new Produs(productDto);
-        Optional optional=producatorRepository.getProducatorById(1L);
-        if(optional.isEmpty())
+        Produs produs = new Produs(productDto);
+        Optional optional = producatorRepository.getProducatorById(1L);
+        if (optional.isEmpty())
             return new ResponseEntity("Producatorul nu a fost gasit", HttpStatus.BAD_REQUEST);
-        Producator producator= (Producator) optional.get();
-        if(producator.getProduse()== null)
+        Producator producator = (Producator) optional.get();
+        if (producator.getProduse() == null)
             producator.setProduse(new ArrayList<>());
         produsRepository.save(produs);
         producator.getProduse().add(produs);
@@ -56,9 +56,9 @@ public class ProductService {
     public ResponseEntity addImageToProduct(MultipartFile image, Long productId) {
 
         Optional<Produs> optionalProduct = produsRepository.findById(productId);
-        if(optionalProduct.isEmpty())
+        if (optionalProduct.isEmpty())
             return new ResponseEntity("Product does not exist!", HttpStatus.NOT_FOUND);
-        Produs product=optionalProduct.get();
+        Produs product = optionalProduct.get();
         String path = mediaService.addMedia(image);
         if (path.equals(""))
             return new ResponseEntity("It was a problem! Try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -69,10 +69,10 @@ public class ProductService {
     }
 
     public ResponseEntity getProductPaginated(Long companyId, int page, int size) {
-        Optional optionalProducer=producatorRepository.findById(companyId);
-        if(optionalProducer.isEmpty())
-            return new ResponseEntity("Producer not found!",HttpStatus.NOT_FOUND);
-        Producator producator=(Producator) optionalProducer.get();
-        producator.getProduse().stream().skip((page-1)*size).limit(size);
+        Optional optionalProducer = producatorRepository.findById(companyId);
+        if (optionalProducer.isEmpty())
+            return new ResponseEntity("Producer not found!", HttpStatus.NOT_FOUND);
+        Producator producator = (Producator) optionalProducer.get();
+        return new ResponseEntity(producator.getProduse().stream().skip((page - 1) * size).limit(size), HttpStatus.OK);
     }
 }

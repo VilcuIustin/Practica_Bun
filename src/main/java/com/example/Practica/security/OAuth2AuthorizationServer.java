@@ -28,8 +28,8 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 
     @Autowired
     public OAuth2AuthorizationServer(AuthenticationManager authenticationManager, UserDetailsService userDetailService) {
-        this.authenticationManager=authenticationManager;
-        this.userDetailService=userDetailService;
+        this.authenticationManager = authenticationManager;
+        this.userDetailService = userDetailService;
     }
 
 //    http://localhost:8080/oauth/token

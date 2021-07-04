@@ -11,7 +11,8 @@ public class UserPayload {
     private String password;
 
 
-    public UserPayload(){}
+    public UserPayload() {
+    }
 
     public UserPayload(String email, String nume, String prenume, Date data_nastere, char sex, String password) {
         this.email = email;

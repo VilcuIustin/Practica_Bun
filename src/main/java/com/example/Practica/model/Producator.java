@@ -3,7 +3,9 @@ package com.example.Practica.model;
 import com.example.Practica.dto.ProducatorPayload;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "Producator")
@@ -17,38 +19,33 @@ public class Producator {
     private String adresa;
     private String poza;
     @ManyToMany
+    private List<Category> category;
+    @ManyToMany
     private Collection<Produs> produse;
 
 
-    public Producator(){ }
-
-    public Producator(ProducatorPayload producatorPayload){
-        this.email = producatorPayload.getEmail();
-        this.denumire = producatorPayload.getDenumire();
-        this.password = producatorPayload.getPassword();
-        this.adresa= producatorPayload.getAdresa();
+    public Producator() {
     }
 
-    public Producator(long id, String denumire, String email, String adresa) {
+    public Producator(ProducatorPayload producatorPayload, List<Category> category) {
+        this.email = producatorPayload.getEmail();
+        this.denumire = producatorPayload.getDenumire();
+        this.adresa = producatorPayload.getAdresa();
+        this.category = new ArrayList<>();
+        this.category.addAll(category);
+
+    }
+
+    public Producator(long id, String denumire, String email, String adresa, String poza, List<Category> category) {
         this.id = id;
         this.denumire = denumire;
         this.email = email;
         this.adresa = adresa;
+        this.poza = poza;
+        this.category = category;
 
     }
 
-    @Override
-    public String toString() {
-        return "Producator{" +
-                "id=" + id +
-                ", denumire='" + denumire + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", adresa='" + adresa + '\'' +
-                ", poza='" + poza + '\'' +
-                ", produse=" + produse +
-                '}';
-    }
 
     public Producator(long id, String denumire, String email, String password, String adresa, Collection<Produs> produse) {
         this.id = id;
@@ -67,7 +64,26 @@ public class Producator {
         this.poza = poza;
     }
 
+    public List<Category> getCategory() {
+        return category;
+    }
 
+    public void setCategory(List<Category> category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Producator{" +
+                "id=" + id +
+                ", denumire='" + denumire + '\'' +
+                ", email='" + email + '\'' +
+                ", adresa='" + adresa + '\'' +
+                ", poza='" + poza + '\'' +
+                ", category=" + category +
+                ", produse=" + produse +
+                '}';
+    }
 
     public long getId() {
         return id;

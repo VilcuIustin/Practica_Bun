@@ -9,14 +9,14 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @EnableResourceServer
 public class ResourceServer extends ResourceServerConfigurerAdapter {
 
-//    REST API -> angular, react, mobile android, crossplatform.
+    //    REST API -> angular, react, mobile android, crossplatform.
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/register","/login").permitAll()
+                .antMatchers("/register", "/login", "/images/**", "/getproducatoripaginated").permitAll()
                 .anyRequest().authenticated();
 
     }
