@@ -1,6 +1,7 @@
 package com.example.Practica.model;
 
 import com.example.Practica.dto.ProducatorPayload;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,9 +16,14 @@ public class Producator {
     private long id;
     private String denumire;
     private String email;
+    @JsonIgnore
     private String password;
     private String adresa;
     private String poza;
+    private long noReviews=0l;
+    private float stars =0.0f;
+    @ManyToMany
+    private List<Review> reviews;
     @ManyToMany
     private List<Category> category;
     @ManyToMany
@@ -72,6 +78,36 @@ public class Producator {
         this.category = category;
     }
 
+    public long getNoReviews() {
+        return noReviews;
+    }
+
+    public void setNoReviews(long noReviews) {
+        this.noReviews = noReviews;
+    }
+    public void addNewReviewWithStars(Review review){
+
+        noReviews++;
+        stars=(stars+review.getStars())/noReviews;
+        reviews.add(review);
+    }
+
+    public float getStars() {
+        return stars;
+    }
+
+    public void setStars(float stars) {
+        this.stars = stars;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     @Override
     public String toString() {
         return "Producator{" +
@@ -80,6 +116,9 @@ public class Producator {
                 ", email='" + email + '\'' +
                 ", adresa='" + adresa + '\'' +
                 ", poza='" + poza + '\'' +
+                ", noReviews=" + noReviews +
+                ", stars=" + stars +
+                ", reviews=" + reviews +
                 ", category=" + category +
                 ", produse=" + produse +
                 '}';

@@ -13,13 +13,13 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String categoryName;
+    private String category;
 
     public Category() {
     }
 
     public Category(String category) {
-        this.categoryName = category;
+        this.category = category;
     }
 
     public Long getId() {
@@ -31,18 +31,18 @@ public class Category {
     }
 
     public String getCategory() {
-        return categoryName;
+        return category;
     }
 
     public void setCategory(String category) {
-        this.categoryName = category;
+        this.category = category;
     }
 
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
-                ", category='" + categoryName + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

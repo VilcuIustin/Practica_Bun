@@ -1,11 +1,10 @@
 package com.example.Practica.model;
 
 import com.example.Practica.dto.ProductDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Produs {
@@ -19,6 +18,9 @@ public class Produs {
     private long cantitate;
     private int reducere;
     private String path;
+    @ManyToOne
+    @JsonIgnore
+    private Producator producator;
 
     public Produs() {
     }
@@ -51,6 +53,14 @@ public class Produs {
                 ", reducere=" + reducere +
                 ", path='" + path + '\'' +
                 '}';
+    }
+
+    public Producator getProducator() {
+        return producator;
+    }
+
+    public void setProducator(Producator producator) {
+        this.producator = producator;
     }
 
     public String getPath() {

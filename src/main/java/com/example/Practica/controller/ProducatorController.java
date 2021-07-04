@@ -2,6 +2,7 @@ package com.example.Practica.controller;
 
 
 import com.example.Practica.dto.ProductDto;
+import com.example.Practica.dto.ReviewDto;
 import com.example.Practica.service.MediaService;
 import com.example.Practica.service.ProducatorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,11 @@ public class ProducatorController {
     @PostMapping("/uploadphoto")
     public ResponseEntity updatePhoto(@RequestParam MultipartFile image, @RequestParam Long companyId) {
         return producatorService.addBackgroundtoCompany(image, companyId);
+    }
 
+    @PostMapping("/addReview")
+    public ResponseEntity addReview(@RequestBody ReviewDto reviewDto){
+        return producatorService.addReview(reviewDto);
     }
 
 

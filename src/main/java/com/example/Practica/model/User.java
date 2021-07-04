@@ -2,6 +2,7 @@ package com.example.Practica.model;
 
 
 import com.example.Practica.dto.UserPayload;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -18,12 +19,13 @@ public class User {
     private String prenume;
     private Date data_nastere;
     private char sex;
+    @JsonIgnore
     private String password;
     private String path;
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
     @ManyToMany
-    private Collection<Produs> cos;
+    private Collection<Produs> lastPurchases;
 
     public User(String email, String password, Role role) {
         this.email = email;
@@ -53,6 +55,14 @@ public class User {
         this.sex = sex;
         this.password = password;
         this.role = role;
+    }
+
+    public Collection<Produs> getLastPurchases() {
+        return lastPurchases;
+    }
+
+    public void setLastPurchases(Collection<Produs> lastPurchases) {
+        this.lastPurchases = lastPurchases;
     }
 
     public String getPath() {

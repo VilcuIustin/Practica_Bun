@@ -3,7 +3,6 @@ package com.example.Practica.service;
 
 import com.example.Practica.dto.ProducatorPayload;
 import com.example.Practica.dto.UserPayload;
-import com.example.Practica.model.Category;
 import com.example.Practica.model.Producator;
 import com.example.Practica.model.Role;
 import com.example.Practica.model.User;
@@ -13,9 +12,9 @@ import com.example.Practica.repository.RoleRepository;
 import com.example.Practica.repository.UserRepository;
 import com.example.Practica.security.UserPrinciple;
 import org.apache.commons.validator.EmailValidator;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
+
 
 @Service
 public class UserService {
@@ -94,7 +93,6 @@ public class UserService {
 
     public ResponseEntity changeImage(MultipartFile image) {
         UserPrinciple principal = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
         Optional<User> optionalUser = userRepository.findById(principal.getId());
         if (optionalUser.isEmpty())
             return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
@@ -105,6 +103,18 @@ public class UserService {
         user.setPath(path);
         userRepository.save(user);
         return new ResponseEntity("Profile picture is saved", HttpStatus.OK);
+
+    }
+
+    public ResponseEntity retriveData() {
+        UserPrinciple principal = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> optionalUser=userRepository.findById(principal.getId());
+        if(optionalUser.isEmpty())
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
+        User user= optionalUser.get();
+        long noPurchases= user.getLastPurchases().size();
+        user.setLastPurchases(null);
+        return new ResponseEntity(new Object[] {user,noPurchases }, HttpStatus.OK);
 
     }
 }

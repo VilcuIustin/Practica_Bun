@@ -38,12 +38,13 @@ public class ProductService {
         if (productDto.getReducere() < 0 || productDto.getReducere() > 100)
             return new ResponseEntity("Reducerea aplicata unui aliment trebuie sa fie intre 0-100%", HttpStatus.BAD_REQUEST);
         Produs produs = new Produs(productDto);
-        Optional optional = producatorRepository.getProducatorById(1L);
+        Optional optional = producatorRepository.getProducatorById(productDto.getRestaurantId());
         if (optional.isEmpty())
             return new ResponseEntity("Producatorul nu a fost gasit", HttpStatus.BAD_REQUEST);
         Producator producator = (Producator) optional.get();
         if (producator.getProduse() == null)
             producator.setProduse(new ArrayList<>());
+        produs.setProducator(producator);
         produsRepository.save(produs);
         producator.getProduse().add(produs);
         producatorRepository.save(producator);

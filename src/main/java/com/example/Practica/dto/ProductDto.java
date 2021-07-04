@@ -9,18 +9,27 @@ public class ProductDto {
     private float pret;
     private long cantitate;
     private int reducere;
+    private Long restaurantId;
 
     public ProductDto() {
     }
 
-    public ProductDto(String denumire, String descriere, float pret, long cantitate, int reducere) {
+    public ProductDto(String denumire, String descriere, float pret, long cantitate, int reducere, Long restaurantId) {
         this.denumire = denumire;
         this.descriere = descriere;
         this.pret = pret;
         this.cantitate = cantitate;
         this.reducere = reducere;
+        this.restaurantId = restaurantId;
     }
 
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
 
     public String getDenumire() {
         return denumire;
