@@ -16,7 +16,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 
     @Override
     public Optional<List<Category>> findByName(List<String> category) {
-        String query = "SELECT c FROM Category c " + "WHERE c.categoryName IN (:lista)";
+        String query = "SELECT c FROM Category c " + "WHERE c.category IN (:lista)";
 
         return Optional.of(entityManager.createQuery(query, Category.class)
                 .setParameter("lista", category)

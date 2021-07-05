@@ -25,7 +25,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
     @ManyToMany
-    private Collection<Produs> lastPurchases;
+    private Collection<Cos> lastPurchases;
 
     public User(String email, String password, Role role) {
         this.email = email;
@@ -57,11 +57,11 @@ public class User {
         this.role = role;
     }
 
-    public Collection<Produs> getLastPurchases() {
+    public Collection<Cos> getLastPurchases() {
         return lastPurchases;
     }
 
-    public void setLastPurchases(Collection<Produs> lastPurchases) {
+    public void setLastPurchases(Collection<Cos> lastPurchases) {
         this.lastPurchases = lastPurchases;
     }
 

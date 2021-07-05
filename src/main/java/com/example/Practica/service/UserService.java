@@ -1,15 +1,11 @@
 package com.example.Practica.service;
 
 
+import com.example.Practica.dto.CosDto;
 import com.example.Practica.dto.ProducatorPayload;
 import com.example.Practica.dto.UserPayload;
-import com.example.Practica.model.Producator;
-import com.example.Practica.model.Role;
-import com.example.Practica.model.User;
-import com.example.Practica.repository.CategoryRepository;
-import com.example.Practica.repository.ProducatorRepository;
-import com.example.Practica.repository.RoleRepository;
-import com.example.Practica.repository.UserRepository;
+import com.example.Practica.model.*;
+import com.example.Practica.repository.*;
 import com.example.Practica.security.UserPrinciple;
 import org.apache.commons.validator.EmailValidator;
 import org.json.JSONObject;
@@ -24,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,19 +39,28 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProdusRepository productRepository;
+    @Autowired
+    private CosRepository cosRepository;
+
     private List<String> categoryString = Arrays.asList(new String[]{"Pizza", "Burger", "Pasta", "Traditional", "FastFoods", "Coffee", "Cake"});
 
 
     public ResponseEntity addUser(UserPayload userPayload) {
         EmailValidator validator = EmailValidator.getInstance();
+
         if (!validator.isValid(userPayload.getEmail().trim()))
             return new ResponseEntity("Email invalid", HttpStatus.valueOf(400));
+
         if (userRepository.findByEmail(userPayload.getEmail()).isPresent())
             return new ResponseEntity("Exista deja un utilizator cu acest email", HttpStatus.BAD_REQUEST);
         Role role = new Role("ROLE_DEFAULT");
         role.setId(2L);
+
         if (userPayload.getSex() != 'F' && userPayload.getSex() != 'M')
             return new ResponseEntity("Invalid Sex", HttpStatus.valueOf(400));
+
         if (userPayload.getNume().trim().isEmpty() || userPayload.getPrenume().trim().isEmpty())
             return new ResponseEntity("Numele si/sau prenumele lipsesc!", HttpStatus.valueOf(400));
         User user = new User(userPayload);
@@ -69,15 +75,20 @@ public class UserService {
     public ResponseEntity addProducator(ProducatorPayload producatorNou) {
         System.out.println(producatorNou);
         EmailValidator validator = EmailValidator.getInstance();
+
         if (!validator.isValid(producatorNou.getEmail().trim()))
             return new ResponseEntity("Email invalid", HttpStatus.valueOf(400));
+
         if (!producatorRepository.findByEmail(producatorNou.getEmail()))
             return new ResponseEntity("Exista deja un Producator cu acest email", HttpStatus.BAD_REQUEST);
+
         if (producatorNou.getDenumire().trim().isEmpty() || producatorNou.getDenumire().trim().isEmpty())
             return new ResponseEntity("Denumirea producatorului lipseste!", HttpStatus.valueOf(400));
+
         if (producatorNou.getCategory().size() == 0)
             return new ResponseEntity("Restaurantul trebuie sa fie in minim o categorie!", HttpStatus.BAD_REQUEST);
         /* De adaugat validator pentru adresa.*/
+
         if (producatorNou.getCategory().containsAll(categoryString))
             return new ResponseEntity("Categorie invalida!", HttpStatus.BAD_REQUEST);
 
@@ -94,12 +105,16 @@ public class UserService {
     public ResponseEntity changeImage(MultipartFile image) {
         UserPrinciple principal = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> optionalUser = userRepository.findById(principal.getId());
+
         if (optionalUser.isEmpty())
             return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
+
         User user = optionalUser.get();
         String path = mediaService.addMedia(image);
+
         if (path.equals(""))
             return new ResponseEntity("It was a problem! Try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+
         user.setPath(path);
         userRepository.save(user);
         return new ResponseEntity("Profile picture is saved", HttpStatus.OK);
@@ -108,13 +123,43 @@ public class UserService {
 
     public ResponseEntity retriveData() {
         UserPrinciple principal = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<User> optionalUser=userRepository.findById(principal.getId());
-        if(optionalUser.isEmpty())
+        Optional<User> optionalUser = userRepository.findById(principal.getId());
+
+        if (optionalUser.isEmpty())
             return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
-        User user= optionalUser.get();
-        long noPurchases= user.getLastPurchases().size();
+
+        User user = optionalUser.get();
+        long noPurchases = user.getLastPurchases().size();
         user.setLastPurchases(null);
-        return new ResponseEntity(new Object[] {user,noPurchases }, HttpStatus.OK);
+        return new ResponseEntity(new Object[]{user, noPurchases}, HttpStatus.OK);
+
+    }
+
+
+    public ResponseEntity buy(CosDto cosDto) {
+        UserPrinciple principal = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> optionalUser = userRepository.findById(principal.getId());
+
+        if (optionalUser.isEmpty())
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
+
+        User user = optionalUser.get();
+
+        if (cosDto.getProduse().size() == 0)
+            return new ResponseEntity("No products to be bought", HttpStatus.BAD_REQUEST);
+
+        List<Produs> products = productRepository.findAllById(cosDto.getProduse());
+        float price = 0.0f;
+
+        for (Produs product : products)
+            price += product.getPret() * (1.0f - product.getReducere() / 100);
+
+        Cos cos= new Cos(price, products,new Date());
+        cosRepository.save(cos);
+        user.getLastPurchases().add(cos);
+        userRepository.save(user);
+
+        return new ResponseEntity("Transaction succeed ",HttpStatus.OK);
 
     }
 }

@@ -2,6 +2,7 @@ package com.example.Practica;
 
 
 import com.example.Practica.model.Category;
+import com.example.Practica.model.Role;
 import com.example.Practica.repository.CategoryRepository;
 import com.example.Practica.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class PesteMedieAplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-
+    public void run(String... args) {
+//
 //		Role admin = new Role("ROLE_ADMIN");
 //		Role roleDefault = new Role("ROLE_DEFAULT");
 //

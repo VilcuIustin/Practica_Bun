@@ -2,6 +2,7 @@ package com.example.Practica.controller;
 
 
 import com.example.Practica.dto.AuthPayload;
+import com.example.Practica.dto.CosDto;
 import com.example.Practica.dto.ProducatorPayload;
 import com.example.Practica.dto.UserPayload;
 import com.example.Practica.repository.UserRepositoryImpl;
@@ -48,5 +49,9 @@ public class AccountController {
         return userService.retriveData();
     }
 
+    @PostMapping("/buy")
+    public ResponseEntity buy(@RequestBody CosDto cosDto){
+        return userService.buy(cosDto);
+    }
 
 }
