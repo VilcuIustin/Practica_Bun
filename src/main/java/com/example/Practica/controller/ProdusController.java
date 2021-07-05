@@ -1,10 +1,7 @@
 package com.example.Practica.controller;
 
 import com.example.Practica.dto.ProductDto;
-import com.example.Practica.dto.UserPayload;
 import com.example.Practica.service.ProductService;
-import com.example.Practica.service.UserService;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

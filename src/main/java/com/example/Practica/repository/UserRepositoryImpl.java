@@ -1,7 +1,7 @@
 package com.example.Practica.repository;
 
 
-import com.example.Practica.dto.AuthPayload;
+import com.example.Practica.dto.AuthDto;
 import com.example.Practica.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +17,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     public void testQuery(String email) {
 
-        String query = "select new com.example.Practica.dto.AuthPayload" +
+        String query = "select new com.example.Practica.dto.AuthDto" +
                 " (d.email, d.password, d.role.role, d.id) " +
                 " from User d " +
                 " where d.email = :email ";
@@ -32,17 +32,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
 
     @Override
-    public Optional<AuthPayload> getByEmailWithPasswordAndRole(String email) {
-        System.out.println(email);
+    public Optional<AuthDto> getByEmailWithPasswordAndRole(String email) {
         String query = "select " +
-                " new com.example.Practica.dto.AuthPayload (d.email, d.password , d.role.role, d.id) " +
+                " new com.example.Practica.dto.AuthDto (d.email, d.password , d.role.role, d.id) " +
                 " from User d " +
                 " where d.email = :email";
-        AuthPayload authPayload =
-                entityManager.createQuery(query, AuthPayload.class)
+        AuthDto authDto =
+                entityManager.createQuery(query, AuthDto.class)
                         .setParameter("email", email)
                         .getSingleResult();
-        return Optional.of(authPayload);
+        return Optional.of(authDto);
     }
 
 

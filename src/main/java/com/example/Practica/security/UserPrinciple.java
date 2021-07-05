@@ -1,7 +1,7 @@
 package com.example.Practica.security;
 
 
-import com.example.Practica.dto.AuthPayload;
+import com.example.Practica.dto.AuthDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ public class UserPrinciple implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserPrinciple build(AuthPayload user) {
+    public static UserPrinciple build(AuthDto user) {
         System.out.println(user.getRole());
         String email = user.getEmail();
         Long id = user.getId();

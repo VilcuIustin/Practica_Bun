@@ -4,10 +4,10 @@ import com.example.Practica.model.Produs;
 
 import java.util.List;
 
-public class CosDto {
+public class CartDto {
     private List<Long> produse;
 
-    public CosDto(List<Long> produse) {
+    public CartDto(List<Long> produse) {
         this.produse = produse;
     }
 
@@ -20,6 +20,6 @@ public class CosDto {
     }
 
 
-    public CosDto() {
+    public CartDto() {
     }
 }

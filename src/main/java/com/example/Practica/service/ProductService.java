@@ -1,7 +1,6 @@
 package com.example.Practica.service;
 
 import com.example.Practica.dto.ProductDto;
-import com.example.Practica.dto.UserPayload;
 import com.example.Practica.model.Producator;
 import com.example.Practica.model.Produs;
 import com.example.Practica.repository.ProducatorRepository;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Optional;
 

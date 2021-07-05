@@ -1,7 +1,7 @@
 package com.example.Practica.model;
 
 
-import com.example.Practica.dto.UserPayload;
+import com.example.Practica.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -36,13 +36,13 @@ public class User {
     public User() {
     }
 
-    public User(UserPayload userPayload) {
-        this.email = userPayload.getEmail();
-        this.nume = userPayload.getNume();
-        this.prenume = userPayload.getPrenume();
-        this.data_nastere = userPayload.getData_nastere();
-        this.sex = userPayload.getSex();
-        this.password = userPayload.getPassword();
+    public User(UserDto userDto) {
+        this.email = userDto.getEmail();
+        this.nume = userDto.getNume();
+        this.prenume = userDto.getPrenume();
+        this.data_nastere = userDto.getData_nastere();
+        this.sex = userDto.getSex();
+        this.password = userDto.getPassword();
 
     }
 

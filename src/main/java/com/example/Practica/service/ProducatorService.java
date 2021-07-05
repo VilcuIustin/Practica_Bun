@@ -75,12 +75,14 @@ public class ProducatorService {
 //            }
 //        }))
 //            return new ResponseEntity("You have no command at this restaurant. Buy from it first to write a review",HttpStatus.BAD_REQUEST);
+        Optional<Producator> restaurantOptional=producatorRepository.findById(reviewDto.getRestaurantId());
+
+        if(restaurantOptional.isEmpty())
+            return new ResponseEntity("No Restaurant Found",HttpStatus.NOT_FOUND);
+
         Review review = new Review(reviewDto, user);
         reviewRepository.save(review);
-        Optional<Producator> restaurant=producatorRepository.findById(reviewDto.getRestaurantId());
-        if(restaurant.isEmpty())
-            return new ResponseEntity("No Restaurant Found",HttpStatus.NOT_FOUND);
-        Producator producator= restaurant.get();
+               Producator producator= restaurantOptional.get();
         producator.addNewReviewWithStars(review);
         producatorRepository.save(producator);
         return new ResponseEntity("Review added",HttpStatus.OK);

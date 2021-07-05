@@ -1,16 +1,14 @@
 package com.example.Practica.service;
 
 
-import com.example.Practica.dto.CosDto;
-import com.example.Practica.dto.ProducatorPayload;
-import com.example.Practica.dto.UserPayload;
+import com.example.Practica.dto.CartDto;
+import com.example.Practica.dto.RestaurantDto;
+import com.example.Practica.dto.UserDto;
 import com.example.Practica.model.*;
 import com.example.Practica.repository.*;
 import com.example.Practica.security.UserPrinciple;
 import org.apache.commons.validator.EmailValidator;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,23 +45,23 @@ public class UserService {
     private List<String> categoryString = Arrays.asList(new String[]{"Pizza", "Burger", "Pasta", "Traditional", "FastFoods", "Coffee", "Cake"});
 
 
-    public ResponseEntity addUser(UserPayload userPayload) {
+    public ResponseEntity addUser(UserDto userDto) {
         EmailValidator validator = EmailValidator.getInstance();
 
-        if (!validator.isValid(userPayload.getEmail().trim()))
+        if (!validator.isValid(userDto.getEmail().trim()))
             return new ResponseEntity("Email invalid", HttpStatus.valueOf(400));
 
-        if (userRepository.findByEmail(userPayload.getEmail()).isPresent())
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent())
             return new ResponseEntity("Exista deja un utilizator cu acest email", HttpStatus.BAD_REQUEST);
         Role role = new Role("ROLE_DEFAULT");
         role.setId(2L);
 
-        if (userPayload.getSex() != 'F' && userPayload.getSex() != 'M')
+        if (userDto.getSex() != 'F' && userDto.getSex() != 'M')
             return new ResponseEntity("Invalid Sex", HttpStatus.valueOf(400));
 
-        if (userPayload.getNume().trim().isEmpty() || userPayload.getPrenume().trim().isEmpty())
+        if (userDto.getNume().trim().isEmpty() || userDto.getPrenume().trim().isEmpty())
             return new ResponseEntity("Numele si/sau prenumele lipsesc!", HttpStatus.valueOf(400));
-        User user = new User(userPayload);
+        User user = new User(userDto);
         user.setRole(role);
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         userRepository.save(user);
@@ -72,7 +70,7 @@ public class UserService {
     }
 
 
-    public ResponseEntity addProducator(ProducatorPayload producatorNou) {
+    public ResponseEntity addProducator(RestaurantDto producatorNou) {
         System.out.println(producatorNou);
         EmailValidator validator = EmailValidator.getInstance();
 
@@ -130,13 +128,13 @@ public class UserService {
 
         User user = optionalUser.get();
         long noPurchases = user.getLastPurchases().size();
-        user.setLastPurchases(null);
+        //user.setLastPurchases(null);
         return new ResponseEntity(new Object[]{user, noPurchases}, HttpStatus.OK);
 
     }
 
 
-    public ResponseEntity buy(CosDto cosDto) {
+    public ResponseEntity buy(CartDto cartDto) {
         UserPrinciple principal = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> optionalUser = userRepository.findById(principal.getId());
 
@@ -145,10 +143,10 @@ public class UserService {
 
         User user = optionalUser.get();
 
-        if (cosDto.getProduse().size() == 0)
+        if (cartDto.getProduse().size() == 0)
             return new ResponseEntity("No products to be bought", HttpStatus.BAD_REQUEST);
 
-        List<Produs> products = productRepository.findAllById(cosDto.getProduse());
+        List<Produs> products = productRepository.findAllById(cartDto.getProduse());
         float price = 0.0f;
 
         for (Produs product : products)

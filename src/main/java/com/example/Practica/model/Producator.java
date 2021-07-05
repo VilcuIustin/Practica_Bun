@@ -1,6 +1,6 @@
 package com.example.Practica.model;
 
-import com.example.Practica.dto.ProducatorPayload;
+import com.example.Practica.dto.RestaurantDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -33,10 +33,10 @@ public class Producator {
     public Producator() {
     }
 
-    public Producator(ProducatorPayload producatorPayload, List<Category> category) {
-        this.email = producatorPayload.getEmail();
-        this.denumire = producatorPayload.getDenumire();
-        this.adresa = producatorPayload.getAdresa();
+    public Producator(RestaurantDto restaurantDto, List<Category> category) {
+        this.email = restaurantDto.getEmail();
+        this.denumire = restaurantDto.getDenumire();
+        this.adresa = restaurantDto.getAdresa();
         this.category = new ArrayList<>();
         this.category.addAll(category);
 

@@ -1,7 +1,7 @@
 package com.example.Practica.service;
 
 
-import com.example.Practica.dto.AuthPayload;
+import com.example.Practica.dto.AuthDto;
 import com.example.Practica.repository.UserRepository;
 import com.example.Practica.security.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Optional<AuthPayload> optionalAuthDto = userRepository.getByEmailWithPasswordAndRole(email);
+        Optional<AuthDto> optionalAuthDto = userRepository.getByEmailWithPasswordAndRole(email);
 
 
         if (optionalAuthDto.isPresent()) {
