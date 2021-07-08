@@ -25,20 +25,19 @@ public class MediaService {
 
     @Autowired
     ProducatorRepository producatorRepository;
-    private String path = new File("").getAbsolutePath() + "\\target\\classes\\public\\images";
-    private String beforepath = new File("").getAbsolutePath() + "\\target\\classes\\public";
+    private String path = new File("").getAbsolutePath() + "\\Practica_Bun\\target\\classes\\public\\images";
+
 
     public String addMedia(MultipartFile mediaFile) {
         try {
-            System.out.println(Paths.get(""));
-            if (!Files.isDirectory(Paths.get(path))) {
-                if (!Files.isDirectory(Paths.get(beforepath)))
-                    Files.createDirectory(Paths.get(beforepath));
-                Files.createDirectory(Paths.get(path));
-            }
+
+            if (!Files.exists(Paths.get(path)))
+                Files.createDirectories(Paths.get(path));
+
 
             String filename;
             String extension;
+
             do {
                 filename = new Date().getTime() + "" + RandomStringUtils.randomAlphanumeric(20);
                 extension = FilenameUtils.getExtension(mediaFile.getOriginalFilename());
@@ -46,6 +45,7 @@ public class MediaService {
 
             Files.copy(mediaFile.getInputStream(), Paths.get(path).resolve(filename + "." + extension));
             return "/images" + "/" + filename + "." + extension;
+
         } catch (IOException e) {
             e.printStackTrace();
             return "";
