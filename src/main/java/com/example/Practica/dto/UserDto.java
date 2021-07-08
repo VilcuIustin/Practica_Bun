@@ -2,7 +2,7 @@ package com.example.Practica.dto;
 
 import java.util.Date;
 
-public class UserPayload {
+public class UserDto {
     private String email;
     private String nume;
     private String prenume;
@@ -11,10 +11,10 @@ public class UserPayload {
     private String password;
 
 
-    public UserPayload() {
+    public UserDto() {
     }
 
-    public UserPayload(String email, String nume, String prenume, Date data_nastere, char sex, String password) {
+    public UserDto(String email, String nume, String prenume, Date data_nastere, char sex, String password) {
         this.email = email;
         this.nume = nume;
         this.prenume = prenume;

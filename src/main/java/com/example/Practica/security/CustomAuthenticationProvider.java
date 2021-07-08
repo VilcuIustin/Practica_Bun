@@ -1,7 +1,7 @@
 package com.example.Practica.security;
 
 
-import com.example.Practica.dto.AuthPayload;
+import com.example.Practica.dto.AuthDto;
 import com.example.Practica.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,15 +32,15 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
         String email = authentication.getName().trim();
         String inputPassword = authentication.getCredentials().toString();
 
-        Optional<AuthPayload> optionalUser = userRepository.getByEmailWithPasswordAndRole(email);
+        Optional<AuthDto> optionalUser = userRepository.getByEmailWithPasswordAndRole(email);
 
         if (optionalUser.isPresent()) {
 
-            AuthPayload authPayload = optionalUser.get();
-            String dbPassword = authPayload.getPassword();
+            AuthDto authDto = optionalUser.get();
+            String dbPassword = authDto.getPassword();
 
             if (BCrypt.checkpw(inputPassword, dbPassword)) {
-                UserDetails userDetails = UserPrinciple.build(authPayload);
+                UserDetails userDetails = UserPrinciple.build(authDto);
                 Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails,
                         null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(newAuth);

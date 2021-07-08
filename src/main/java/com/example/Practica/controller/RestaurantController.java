@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-public class ProducatorController {
+public class RestaurantController {
     @Autowired
     ProducatorService producatorService;
 

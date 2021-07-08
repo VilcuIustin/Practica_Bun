@@ -3,14 +3,14 @@ package com.example.Practica.dto;
 import java.util.Collection;
 import java.util.List;
 
-public class ProducatorPayload {
+public class RestaurantDto {
     private String denumire;
     private String email;
     private String password;
     private String adresa;
     private List<String> category;
 
-    public ProducatorPayload(String denumire, String email, String password, String adresa, List<String> category) {
+    public RestaurantDto(String denumire, String email, String password, String adresa, List<String> category) {
         this.denumire = denumire;
         this.email = email;
         this.password = password;
@@ -18,7 +18,7 @@ public class ProducatorPayload {
         this.category = category;
     }
 
-    public ProducatorPayload() {
+    public RestaurantDto() {
     }
 
     public String getDenumire() {
@@ -63,7 +63,7 @@ public class ProducatorPayload {
 
     @Override
     public String toString() {
-        return "ProducatorPayload{" +
+        return "RestaurantDto{" +
                 "denumire='" + denumire + '\'' +
                 ", email='" + email + '\'' +
                 ", adresa='" + adresa + '\'' +

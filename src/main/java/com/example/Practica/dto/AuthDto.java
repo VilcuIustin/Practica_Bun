@@ -2,18 +2,18 @@ package com.example.Practica.dto;
 
 import com.example.Practica.model.Role;
 
-public class AuthPayload {
+public class AuthDto {
     private String email;
     private String password;
     private String role;
     private Long id;
 
-    public AuthPayload() {
+    public AuthDto() {
     }
 
-    public AuthPayload(String email,
-                       String password,
-                       String role, Long id) {
+    public AuthDto(String email,
+                   String password,
+                   String role, Long id) {
         this.email = email;
         this.password = password;
         this.role = role;

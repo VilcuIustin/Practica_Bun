@@ -1,14 +1,11 @@
 package com.example.Practica.repository;
 
-import com.example.Practica.dto.AuthPayload;
 import com.example.Practica.model.Producator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class ProducatorRepositoryImpl implements ProducatorRepositoryCustom {
 
