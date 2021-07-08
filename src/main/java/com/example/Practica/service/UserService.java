@@ -41,6 +41,8 @@ public class UserService {
     private ProdusRepository productRepository;
     @Autowired
     private CosRepository cosRepository;
+    @Autowired
+    private EmailService emailService;
 
     private List<String> categoryString = Arrays.asList(new String[]{"Pizza", "Burger", "Pasta", "Traditional", "FastFoods", "Coffee", "Cake"});
 
@@ -65,7 +67,9 @@ public class UserService {
         user.setRole(role);
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         userRepository.save(user);
-        /* Aici o sa fie trimiterea emailului */
+        emailService.sendMail(user.getEmail(),"New Account","Bine ai venit pe platforma, "+ user.getNume()+" "+user.getPrenume() +
+                "! Speram ca experienta ta aici sa fie la fel cum isi doreste Ionut Lengher (Imi place sa mananc) sa fie o saorma... Peste Medie! ");
+
         return new ResponseEntity("Contul a fost creat! Ai primit un email pe adresa de email pentru a activa contul.", HttpStatus.OK);
     }
 
@@ -95,7 +99,9 @@ public class UserService {
         System.out.println(producator);
         System.out.println(categoryRepository.findByName(producatorNou.getCategory()).get());
         producatorRepository.save(producator);
-        /* Aici o sa fie trimiterea emailului */
+        emailService.sendMail(producator.getEmail(),"New Account","Bine ai venit pe platforma, "+ producator.getDenumire() +
+                "! Echipa Peste Medie va doreste spor la vanzari si sa aveti cati mai multi clienti! Inca ceva. Parola default este "+ producatorNou.getPassword()
+                + " va rugam sa o schimbati cat mai repede posibil utilizand urmatorul link." );
         return new ResponseEntity("Contul a fost creat! Emailul pentru setarea parolei a fost trimis catre companie.", HttpStatus.OK);
     }
 
