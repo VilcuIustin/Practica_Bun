@@ -19,7 +19,6 @@ public class CosDto {
         this.produse = produse;
     }
 
-
     public CosDto() {
     }
 }

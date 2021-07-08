@@ -6,6 +6,7 @@ import com.example.Practica.dto.CosDto;
 import com.example.Practica.dto.ProducatorPayload;
 import com.example.Practica.dto.UserPayload;
 import com.example.Practica.repository.UserRepositoryImpl;
+import com.example.Practica.security.EmailService;
 import com.example.Practica.service.UserService;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AccountController {
     @Autowired
     UserService userService;
+
 
 
     @PostMapping("/register")
@@ -49,6 +51,7 @@ public class AccountController {
         return userService.retriveData();
     }
 
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/buy")
     public ResponseEntity buy(@RequestBody CosDto cosDto){
         return userService.buy(cosDto);
